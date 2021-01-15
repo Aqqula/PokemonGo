@@ -8,10 +8,12 @@ function init() {
 }
 
 $btn1.addEventListener('click', function () {
-    attack(20, 20, 'smash')
+    attack(20, 20, 'smash');
+    countClicksBtn1.call($btn1, 'btn-smash', 4)
 })
 $btn2.addEventListener('click', function () {
-    attack(30, 30, 'blast')
+    attack(30, 30, 'blast');
+    countClicksBtn2.call($btn2, 'btn-blast', 3)
 })
 
 const picachu = {
@@ -32,6 +34,24 @@ const charmander = {
     elProgressbar: document.getElementById('progressbar-charmander'),
     renderHP,
     changeHP,
+}
+
+const countClicksBtn1 = countclicks();
+const countClicksBtn2 = countclicks();
+
+function countclicks () {
+    let currClicks = 0;
+    return function (str, clicksLeft) {
+        if (currClicks < clicksLeft - 1) {
+            currClicks += 1;
+            clicksLeft -= 1;
+                     console.log(currClicks + ' clicks on ' + str + ' / ' + clicksLeft +' clicks left.');
+        }
+        else {
+            console.log(currClicks + ' clicks on ' + str + '/ 0 clicks left.');
+        this.disabled = true;
+        }
+    }
 }
 
 function random(num) {
@@ -71,8 +91,7 @@ function logOut(first, second) {
 
 function renderHP() {
     this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
-    this.elProgressbar.style.width = this.damageHP + '%';
-
+    this.elProgressbar.style.width = this.damageHP + '%'; 
 }
 
 function changeHP(count) {
