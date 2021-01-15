@@ -1,2 +1,0 @@
-# PokemonGo
- Rep for PractWork
