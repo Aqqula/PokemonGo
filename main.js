@@ -5,14 +5,13 @@ init();
 
 function init() {
     console.log('Start Game!');
-   
-}
+   }
 
 $btn1.addEventListener('click', function () {
     attack(20,20, 'smash')
 })
 $btn2.addEventListener('click', function () {
-    attack(50, 50, 'blast')
+    attack(40, 40, 'blast')
 })
 
 const picachu = {
@@ -39,10 +38,10 @@ function random(num) {
     return Math.ceil(Math.random() * num);
 }
 
-function attack(cdamage, edamage, atack) {
+function attack(cdamage, pdamage, atack) {
     console.log(atack);
-    picachu.changeHP(random(edamage));
-    charmander.changeHP(random(cdamage));
+    picachu.changeHP(random(pdamage));
+    charmander.changeHP(random(cdamage));    
     picachu.renderHP();
     charmander.renderHP();
 }
@@ -54,7 +53,7 @@ function renderHP() {
 
 function changeHP(count) {
     if (this.damageHP < count) {
-        this.damageHP = 0,
+        this.damageHP >= 0,
             $btn1.disabled = true,
             $btn2.disabled = true,
             alert('Для ' + this.name + ' GAME OVER!'),
@@ -63,7 +62,3 @@ function changeHP(count) {
         this.damageHP -= count;
     }
 }
-
-
-
-
