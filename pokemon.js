@@ -1,75 +1,71 @@
-import { ResetGame } from "./main.js";
+import { getElById, disableButton } from './utils.js'
 
 class Selectors {
   constructor(name) {
-    this.elHP = document.getElementById(`health-${name}`);
-    this.elProgressbar = document.getElementById(`progressbar-${name}`);
-    this.elName = document.getElementById(`name-${name}`);
-    this.elImg = document.querySelector(`.${name} img`)
+    this.elHP = getElById(`health-${name}`)
+    this.elProgressbar = getElById(`progressbar-${name}`)
   }
 }
 
 class Pokemon extends Selectors {
-  constructor({ name, hp, type, selectors, attacks, img }) {
-    super(selectors);
-    this.name = name;
+  constructor({ name, hp, type, selectors }) {
+    super(selectors)
+
+    this.name = name
     this.hp = {
-      current: hp,
-      total: hp,
+      defaultHP: hp,
+      damageHP: hp,
     }
-    this.type = type;
-    this.attacks = attacks;
-    this.img = img;
-    this.renderImg();
-    this.renderHP();
-    this.renderName();
-  }
+    this.type = type
 
-  changeHP = (count, cb) => {
-    this.hp.current -= count;
-
-    if (this.hp.current <= 0) {
-      ResetGame(this.name);
-      this.hp.current = 0;
-    }
-
-    this.renderHP();
-    cb && cb (count);
+    this.renderHP()
   }
 
   renderHP = () => {
-    this.renderHPLife();
-    this.renderProgressbarHP();
+    this.renderHPLife()
+    this.renderProgressBar()
   }
 
   renderHPLife = () => {
-    const { elHP, hp: { current, total } } = this;
-    elHP.innerText = current + ' / ' + total;
+    const {
+      elHP,
+      hp: { damageHP, defaultHP },
+    } = this
+
+    elHP.innerText = damageHP + ' / ' + defaultHP
   }
 
-  renderProgressbarHP = () => {
-    const { elProgressbar,
-      hp: { current, total }
-    } = this;
-    const percent = current / (total / 100)
-    if (percent <= 60 && percent >= 20) {
-      elProgressbar.classList.add('low')
-    } else if (percent < 20) {
-      elProgressbar.classList.add('critical')
-    } else {
-      elProgressbar.classList.remove('low')
-      elProgressbar.classList.remove('critical')
+  renderProgressBar = () => {
+    const {
+      elProgressbar,
+      hp: { damageHP, defaultHP },
+    } = this
+    const coeff = defaultHP / damageHP
+    const percent = 100 / coeff
+
+    elProgressbar.style.width = percent + '%'
+  }
+
+  changeHP = (count, cb) => {
+    let { defaultHP } = this.hp
+
+    this.hp.damageHP -= count
+
+    if (this.hp.damageHP <= 0) {
+      const $controlBtns = document.querySelectorAll('.control button')
+
+      this.hp.damageHP = 0
+
+      $controlBtns.forEach((btn) => {
+        disableButton(btn)
+      })
+
+      alert(this.name + ' проиграл бой!')
     }
-    elProgressbar.style.width = percent + '%';
-  }
 
-  renderImg = () => {
-    this.elImg.src = this.img;
-  }
-
-  renderName = () => {
-    this.elName.innerText = this.name;
+    this.renderHP()
+    cb && cb(count, this.hp.damageHP, defaultHP)
   }
 }
 
-export default Pokemon;
+export default Pokemon
