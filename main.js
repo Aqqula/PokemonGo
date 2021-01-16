@@ -1,109 +1,148 @@
-const $btn1 = document.getElementById('btn-smash');
-const $btn2 = document.getElementById('btn-blast');
+import Pokemon from "./pokemon.js";
+import { pokemons } from "./pokemons.js";
+import {addLogs, generateLog} from "./logs.js";
+import random from "./utils.js";
 
-init();
 
-function init() {
-    console.log('Start Game!');
-}
+const randomPokemon1 = pokemons[random(pokemons.length) - 1];
+const randomPokemon2 = pokemons[random(pokemons.length) - 1];
 
-$btn1.addEventListener('click', function () {
-    attack(20, 20, 'smash');
-    countClicksBtn1.call($btn1, 'btn-smash', btn1Clk.value)
+let player1 = new Pokemon({
+  ...pokemons.find(item => item.name === randomPokemon1.name),
+  selectors: 'player1',
+});
+
+let player2 = new Pokemon({
+  ...pokemons.find(item => item.name === randomPokemon2.name),
+  selectors: 'player2',
+});
+
+let stateWin = false;
+
+const $control = document.querySelector('.control');
+
+const startButton = document.createElement('button');
+startButton.classList.add('button');
+startButton.innerText = `Start Game`;
+startButton.addEventListener('click', () => {
+  resetGame(pokemons);
 })
-$btn2.addEventListener('click', function () {
-    attack(30, 30, 'blast');
-    countClicksBtn2.call($btn2, 'btn-blast', btn2Clk.value)
-})
+$control.appendChild(startButton);
 
-const picachu = {
-    name: 'picachu',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: document.getElementById('health-picachu'),
-    elProgressbar: document.getElementById('progressbar-picachu'),
-    renderHP,
-    changeHP,
+function addAttackButton(player) {
+  player.attacks.forEach(item => {
+    const $btn = document.createElement('button');
+    $btn.classList.add('button');
+    $btn.innerText = `${item.name} (${item.maxCount})`;
+    $btn.addEventListener('click', () => {
+      clickButton(item, $btn);
+    })
+    $control.appendChild($btn);
+  })
 }
 
-const charmander = {
-    name: 'charmander',
-    defaultHP: 100,
-    damageHP: 100,
-    elHP: document.getElementById('health-charmander'),
-    elProgressbar: document.getElementById('progressbar-charmander'),
-    renderHP,
-    changeHP,
+function resetGame(players) {
+  const randomPlayer1 = players[random(players.length) - 1];
+  const randomPlayer2 = players[random(players.length) - 1];
+  player1 = new Pokemon({
+    ...players.find(item => item.name === randomPlayer1.name),
+    selectors: 'player1',
+  });
+
+  player2 = new Pokemon({
+    ...players.find(item => item.name === randomPlayer2.name),
+    selectors: 'player2',
+  });
+
+  clearField();
+
+  addAttackButton(player1);
+  addAttackButton(player2);
 }
 
-const countClicksBtn1 = countclicks();
-const countClicksBtn2 = countclicks();
+function clearField() {
+  const allButtons = document.querySelectorAll('.control .button');
+  allButtons.forEach(item => item.remove());
+  const allP = document.querySelectorAll('.control p');
 
-function countclicks () {
-    let currClicks = 0;
-    return function (str, clicksLeft) {
-        if (currClicks < clicksLeft - 1) {
-            currClicks += 1;
-            clicksLeft -= 1;
-                     console.log(currClicks + ' clicks on ' + str + ' / ' + clicksLeft +' clicks left.');
-        }
-        else {
-            console.log(currClicks + ' clicks on ' + str + '/ 0 clicks left.');
-        this.disabled = true;
-        }
-    }
+  if (allP) {
+    allP.forEach(item => item.remove());
+  }
+
+  const allLog = document.querySelectorAll('#logs p');
+  if (allLog) {
+    allLog.forEach(item => item.remove());
+  }
 }
 
-function random(num) {
-    return Math.ceil(Math.random() * num);
-
+function countClick (attack, btn) {
+  attack.maxCount--;
+  if (attack.maxCount === 0) {
+    btn.disabled = true;
+  }
+  btn.innerText = `${attack.name} (${attack.maxCount})`;
 }
 
-function attack(cdamage, pdamage, atack) {
-    console.log(atack);
-    picachu.changeHP(random(pdamage));
-    charmander.changeHP(random(cdamage));
-    picachu.renderHP();
-    charmander.renderHP();
-    logOut();
+function clickButton (attack, btn) {
+  const { maxDamage: max, minDamage: min } = attack;
+  player1.changeHP(random(max,min), function (count) {
+    addLogs(generateLog(player1, player2, count));
+  })
+  player2.changeHP(random(max, min), function (count) {
+    addLogs(generateLog(player2, player1, count));
+  });
+  countClick(attack, btn);
 }
 
-function logOut(first, second) {
-    const { name: name1, damageHP, defaultHP } = picachu;
-    const { name: name2 } = charmander;
-    const logs = [
-        `${name1} вспомнил что-то важное, но неожиданно ${name2}, не помня себя от испуга, ударил в предплечье врага.[${damageHP} / ${defaultHP} ]  `,
-        `${name1} поперхнулся, и за это ${name2} с испугу приложил прямой удар коленом в лоб врага. [${damageHP} / 100 ]`,
-        `${name1} забылся, но в это время наглый ${name2}, приняв волевое решение, неслышно подойдя сзади, ударил. [${damageHP} / ${defaultHP} ]`,
-        `${name1} пришел в себя, но неожиданно ${name2} случайно нанес мощнейший удар. [${damageHP} / ${defaultHP} ]`,
-        `${name1} поперхнулся, но в это время ${name2} нехотя раздробил кулаком <вырезанно цензурой> противника. [${damageHP} / ${defaultHP} ]`,
-        `${name1} удивился, а ${name2} пошатнувшись влепил подлый удар. [${damageHP} / ${defaultHP} ]`,
-        `${name1} высморкался, но неожиданно ${name2} провел дробящий удар. [${damageHP} / ${defaultHP}] `,
-        `${name1} пошатнулся, и внезапно наглый ${name2} беспричинно ударил в ногу противника [${damageHP} / ${defaultHP}]`,
-        `${name1} расстроился, как вдруг, неожиданно ${name2} случайно влепил стопой в живот соперника. [${damageHP} / ${defaultHP} ]`,
-        `${name1} пытался что-то сказать, но вдруг, неожиданно ${name2} со скуки, разбил бровь сопернику. [${damageHP} / ${defaultHP} ]`,
-    ];
-    const $logs = document.querySelector('#logs');
-    const $p = document.createElement('p');
-    $p.innerText = logs[random(logs.length) - 1];
-    $logs.insertBefore($p, $logs.children[0]);
-}
+export function ResetGame (name) {
+  clearField();
+  if (name !== player1.name) {
+    stateWin = true;
+  }
 
-function renderHP() {
-    this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
-    this.elProgressbar.style.width = this.damageHP + '%'; 
-}
+  if (stateWin) {
+    const result = document.createElement('p');
+    result.innerText = `${name} проиграл бой!`;
+    $control.appendChild(result);
 
-function changeHP(count) {
-    const { name } = this;
-    if (this.damageHP < count) {
-        this.damageHP >= 0,
-            $btn1.disabled = true,
-            $btn2.disabled = true,
-            alert('Для ' + name + ' GAME OVER!'),
-            location.reload()
-    } else {
-        this.damageHP -= count;
-    }
+    const continueButton = document.createElement('button');
+    continueButton.classList.add('button');
+    continueButton.innerText = `Продолжить драться...`;
+    continueButton.addEventListener('click', () => {
+      const randomPlayer2 = pokemons[random(pokemons.length) - 1];
+      player1 = new Pokemon({
+        ...pokemons.find(item => item.name === player1.name),
+        selectors: 'player1',
+      })
+      player2 = new Pokemon({
+        ...pokemons.find(item => item.name === randomPlayer2.name),
+        selectors: 'player2',
+      });
+
+      clearField();
+      addAttackButton(player1);
+      addAttackButton(player2);
+    })
+    $control.appendChild(continueButton);
+
+    const startButton = document.createElement('button');
+    startButton.classList.add('button');
+    startButton.innerText = `Reset Game`;
+    startButton.addEventListener('click', () => {
+      clearField();
+      resetGame(pokemons);
+    })
+    $control.appendChild(startButton);
+
+  } else {
+    const startButton = document.createElement('button');
+    startButton.classList.add('button');
+    startButton.innerText = `Reset Game`;
+    startButton.addEventListener('click', () => {
+      clearField();
+      resetGame(pokemons);
+    })
+    $control.appendChild(startButton);
+  }
 
 }
