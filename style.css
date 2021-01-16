@@ -35,20 +35,19 @@ body {
 }
 
 .control {
-    width: 320px;
-    height: 260px;
+    width: 350px;
     position: relative;
-    margin: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .playground {
     max-width: 1024px;
     display: flex;
     justify-content: space-around;
-    margin: 1px auto;
+    margin: 30px auto;
 }
 
 .arrow {
@@ -68,8 +67,8 @@ body {
     width: 36px;
     left: 0;
     top: 0;
-    -webkit-filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.4));
-    filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.4));
+    -webkit-filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
     -webkit-animation: smoosh 0.7s ease infinite;
     animation: smoosh 0.7s ease infinite;
 }
@@ -177,7 +176,7 @@ body {
     margin: auto;
 }
 .pokemon .details .hp .text {
-    color: #666;    
+    color: #666;
     display: inline-block;
     padding-top: 4px;
     font-size: 14px;
@@ -194,6 +193,9 @@ body {
     height: 100%;
     background: -webkit-gradient(linear, left top, right top, from(lime), to(#8bf500));
     background: linear-gradient(to right, lime, #8bf500);
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
 }
 .pokemon .details .hp .bar .health.low {
     background: -webkit-gradient(linear, left top, right top, from(#ffcc00), to(#f1f500));
@@ -248,8 +250,8 @@ body {
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
 }
 .pokemon.selected .cell {
-    -webkit-filter: drop-shadow(0px 2px 6px white);
-    filter: drop-shadow(0px 2px 6px white);
+    -webkit-filter: drop-shadow(0 2px 6px white);
+    filter: drop-shadow(0 2px 6px white);
     -webkit-transform: scale(1.02);
     transform: scale(1.02);
 }
@@ -265,22 +267,6 @@ body {
     animation: bounce 0.8s ease infinite;
 }
 
-.text {
-    color: rgb(110, 42, 6); 
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.form-control {
-    position: relative;
-    background: white;
-    border: 2px solid #ffc55b;
-    border-radius: 8px;
-    min-height: 10px;
-    vertical-align: middle;
-    font-size: 14px;
-}
-
 .button {
     position: relative;
     background: white;
@@ -292,8 +278,9 @@ body {
     outline: none !important;
     cursor: pointer;
     font-size: 18px;
-
+    width: 155px;
 }
+
 .button:after {
     content: "";
     position: absolute;
@@ -309,12 +296,17 @@ body {
 .button:hover {
     background: -webkit-gradient(linear, left top, left bottom, from(#ffd78e), to(#ffc55b));
     background: linear-gradient(to bottom, #ffd78e, #ffc55b);
-    border-color: rgb(184, 7, 7);
+    border-color: white;
 }
 .button:hover:after {
     background: -webkit-gradient(linear, left top, left bottom, from(#ffd78e), to(#ffc55b));
     background: linear-gradient(to bottom, #ffd78e, #ffc55b);
     box-shadow: 0 0 5px 2px white, 0 0 15px #ffe9c1, 0 3px 5px -2px rgba(0, 0, 0, 0.2);
+}
+
+.count-btn1,
+.count-btn2 {
+    font-size: 14px;
 }
 
 .candy {
@@ -353,7 +345,7 @@ body {
     display: block;
     height: 1px;
     width: 1px;
-    box-shadow: 0px 5px #000000, 0px 6px #000000, 0px 7px #000000, 1px 8px #000000, 3px 9px #000000, 2px 9px #000000, 4px 10px #000000, 5px 10px #000000, 6px 11px #000000, 7px 11px #000000, 8px 11px #000000, 9px 10px #000000, 10px 9px #000000, 10px 8px #000000, 10px 7px #000000, 10px 6px #000000, 10px 5px #000000, 10px 4px #000000, 10px 3px #000000, 9px 2px #000000, 8px 1px #000000, 7px 1px #000000, 6px 1px #000000, 5px 2px #000000, 4px 2px #000000, 3px 3px #000000, 2px 3px #000000, 1px 4px #000000, 8px 2px #ffffff, 7px 2px #ffffff, 6px 3px #ffffff, 7px 3px #ffffff, 8px 3px #ffffff, 9px 3px #ffffff, 8px 4px #ffffff, 6px 2px #fff69c, 5px 3px #fff69c, 4px 3px #fff69c, 4px 4px #fff69c, 2px 4px #fff69c, 3px 5px #fff69c, 6px 4px #fff69c, 9px 5px #fff69c, 9px 7px #fff69c, 6px 8px #fff69c, 3px 4px #fff6e6, 2px 5px #fff6e6, 3px 6px #fff6e6, 7px 4px #fff6e6, 9px 4px #fff6e6, 7px 8px #fff6e6, 8px 8px #ffffff, 8px 10px #dea410, 7px 10px #dea410, 6px 10px #dea410, 9px 9px #dea410, 8px 9px #dea410, 7px 9px #dea410, 6px 9px #dea410, 5px 9px #dea410, 4px 9px #dea410, 4px 8px #dea410, 3px 8px #dea410, 2px 8px #dea410, 2px 7px #dea410, 1px 7px #dea410, 1px 6px #dea410, 1px 5px #eec529, 2px 6px #eec529, 3px 7px #eec529, 5px 8px #eec529, 9px 8px #eec529, 7px 6px #f6de41, 8px 6px #f6de41, 8px 7px #f6de41, 7px 7px #f6de41, 7px 5px #f6de41, 6px 5px #f6de41, 5px 5px #f6de41, 6px 6px #f6de41, 5px 4px #ffe65a, 4px 5px #ffe65a, 8px 5px #ffe65a, 9px 6px #ffe65a, 4px 6px #ffe65a, 5px 6px #ffe65a, 5px 7px #ffe65a, 6px 7px #ffe65a, 4px 7px #fff69c;
+    box-shadow: 0 5px #000000, 0 6px #000000, 0 7px #000000, 1px 8px #000000, 3px 9px #000000, 2px 9px #000000, 4px 10px #000000, 5px 10px #000000, 6px 11px #000000, 7px 11px #000000, 8px 11px #000000, 9px 10px #000000, 10px 9px #000000, 10px 8px #000000, 10px 7px #000000, 10px 6px #000000, 10px 5px #000000, 10px 4px #000000, 10px 3px #000000, 9px 2px #000000, 8px 1px #000000, 7px 1px #000000, 6px 1px #000000, 5px 2px #000000, 4px 2px #000000, 3px 3px #000000, 2px 3px #000000, 1px 4px #000000, 8px 2px #ffffff, 7px 2px #ffffff, 6px 3px #ffffff, 7px 3px #ffffff, 8px 3px #ffffff, 9px 3px #ffffff, 8px 4px #ffffff, 6px 2px #fff69c, 5px 3px #fff69c, 4px 3px #fff69c, 4px 4px #fff69c, 2px 4px #fff69c, 3px 5px #fff69c, 6px 4px #fff69c, 9px 5px #fff69c, 9px 7px #fff69c, 6px 8px #fff69c, 3px 4px #fff6e6, 2px 5px #fff6e6, 3px 6px #fff6e6, 7px 4px #fff6e6, 9px 4px #fff6e6, 7px 8px #fff6e6, 8px 8px #ffffff, 8px 10px #dea410, 7px 10px #dea410, 6px 10px #dea410, 9px 9px #dea410, 8px 9px #dea410, 7px 9px #dea410, 6px 9px #dea410, 5px 9px #dea410, 4px 9px #dea410, 4px 8px #dea410, 3px 8px #dea410, 2px 8px #dea410, 2px 7px #dea410, 1px 7px #dea410, 1px 6px #dea410, 1px 5px #eec529, 2px 6px #eec529, 3px 7px #eec529, 5px 8px #eec529, 9px 8px #eec529, 7px 6px #f6de41, 8px 6px #f6de41, 8px 7px #f6de41, 7px 7px #f6de41, 7px 5px #f6de41, 6px 5px #f6de41, 5px 5px #f6de41, 6px 6px #f6de41, 5px 4px #ffe65a, 4px 5px #ffe65a, 8px 5px #ffe65a, 9px 6px #ffe65a, 4px 6px #ffe65a, 5px 6px #ffe65a, 5px 7px #ffe65a, 6px 7px #ffe65a, 4px 7px #fff69c;
 }
 
 .heart {
@@ -487,4 +479,15 @@ h1 {
 
 .action label {
     padding: 6px 0;
+}
+
+#logs p, p {
+    background-color: rgba(185, 223, 247, 0.7);
+    width: 80%;
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    border-radius: 15px;
+    color: rgb(110, 42, 6); 
+    font-size: 16px;
+    font-weight: bold;
 }
