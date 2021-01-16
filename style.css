@@ -48,7 +48,7 @@ body {
     max-width: 1024px;
     display: flex;
     justify-content: space-around;
-    margin: 30px auto;
+    margin: 1px auto;
 }
 
 .arrow {
@@ -177,7 +177,7 @@ body {
     margin: auto;
 }
 .pokemon .details .hp .text {
-    color: #666;
+    color: #666;    
     display: inline-block;
     padding-top: 4px;
     font-size: 14px;
@@ -265,6 +265,22 @@ body {
     animation: bounce 0.8s ease infinite;
 }
 
+.text {
+    color: rgb(110, 42, 6); 
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-control {
+    position: relative;
+    background: white;
+    border: 2px solid #ffc55b;
+    border-radius: 8px;
+    min-height: 10px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
 .button {
     position: relative;
     background: white;
@@ -293,7 +309,7 @@ body {
 .button:hover {
     background: -webkit-gradient(linear, left top, left bottom, from(#ffd78e), to(#ffc55b));
     background: linear-gradient(to bottom, #ffd78e, #ffc55b);
-    border-color: white;
+    border-color: rgb(184, 7, 7);
 }
 .button:hover:after {
     background: -webkit-gradient(linear, left top, left bottom, from(#ffd78e), to(#ffc55b));

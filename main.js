@@ -9,11 +9,11 @@ function init() {
 
 $btn1.addEventListener('click', function () {
     attack(20, 20, 'smash');
-    countClicksBtn1.call($btn1, 'btn-smash', 4)
+    countClicksBtn1.call($btn1, 'btn-smash', btn1Clk.value)
 })
 $btn2.addEventListener('click', function () {
     attack(30, 30, 'blast');
-    countClicksBtn2.call($btn2, 'btn-blast', 3)
+    countClicksBtn2.call($btn2, 'btn-blast', btn2Clk.value)
 })
 
 const picachu = {
