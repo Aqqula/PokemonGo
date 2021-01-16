@@ -1,11 +1,6 @@
-export function random(num) {
-  return Math.ceil(Math.random() * num)
+function random(max, min = 0) {
+  const num = max - min;
+  return Math.ceil(Math.random() * num) + min;
 }
 
-export function getElById(id) {
-  return document.getElementById(id)
-}
-
-export function disableButton(btn) {
-  return (btn.disabled = true)
-}
+export default random;
